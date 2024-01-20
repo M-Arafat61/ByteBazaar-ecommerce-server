@@ -4,6 +4,7 @@ const { ObjectId } = mongoose.Schema;
 const userSchema = new mongoose.Schema(
   {
     name: String,
+    username: String,
     email: {
       type: String,
       required: true,
@@ -11,7 +12,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: "registered-user",
+      default: "user",
     },
     cart: {
       type: Array,

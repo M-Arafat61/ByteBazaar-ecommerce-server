@@ -12,12 +12,19 @@ const app = express();
 
 // middlewares
 app.use(morgan("dev"));
+app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors());
-
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+  })
+);
 // db connection
 mongoose
-  .connect(process.env.DB_URI)
+  .connect(process.env.DB_URI, {
+    dbName: "ByteBazaar",
+  })
   .then(() => console.log("byteBazaar connected"))
   .catch(err => console.log("DB Connection error", err));
 

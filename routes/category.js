@@ -9,10 +9,10 @@ const {
 } = require("../controllers/category");
 const router = express.Router();
 
-router.post("/category", authCheck, adminCheck, create);
-router.get("/categories", list);
-router.get("/category/:slug", read);
-router.put("/category/:slug", authCheck, adminCheck, update);
-router.delete("/category/:slug", authCheck, adminCheck, remove);
+router.post("/v1/category", authCheck, adminCheck, create);
+router.get("/v1/categories", list);
+router.get("/v1/category/:slug", read);
+router.put("/v1/category/:slug", authCheck, adminCheck, update);
+router.delete("/v1/category/:slug", authCheck, adminCheck, remove);
 
 module.exports = router;

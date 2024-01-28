@@ -4,10 +4,11 @@ const slugify = require("slugify");
 exports.create = async (req, res) => {
   try {
     console.log(req.body);
-    const { name } = req.body;
+    const { name, parent } = req.body;
     res.json(
       await new Sub({
         name,
+        parent,
         slug: slugify(name),
       }).save()
     );
@@ -25,11 +26,12 @@ exports.read = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const { name } = req.body;
+  console.log("inside sub update", req.body);
+  const { name, parent } = req.body;
   try {
     const updated = await Sub.findOneAndUpdate(
       { slug: req.params.slug },
-      { name, slug: slugify(name) },
+      { name, parent, slug: slugify(name) },
       { new: true }
     );
     res.json(updated);

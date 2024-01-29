@@ -1,4 +1,5 @@
 const Category = require("../models/category");
+const Sub = require("../models/sub");
 const slugify = require("slugify");
 
 // post category
@@ -46,5 +47,15 @@ exports.remove = async (req, res) => {
     res.json(deletedCategory);
   } catch (error) {
     res.status(400).send("Failed to delete category");
+  }
+};
+
+exports.readSubs = async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const subs = await Sub.find({ parent: _id }).exec();
+    res.json(subs);
+  } catch (error) {
+    res.status(400).send({ error: error.message });
   }
 };

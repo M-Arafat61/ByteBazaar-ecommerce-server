@@ -7,7 +7,7 @@ exports.authCheck = async (req, res, next) => {
   try {
     const firebaseUser = await admin.auth().verifyIdToken(authToken);
     req.user = firebaseUser;
-    console.log("inside auth check middleware");
+    // console.log("inside auth check middleware");
     next();
   } catch (error) {
     console.error("Token Verification Error:", error);
@@ -23,7 +23,7 @@ exports.adminCheck = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if (user && user.role === "admin") {
-      console.log("inside admin check middleware");
+      // console.log("inside admin check middleware");
       next();
     } else {
       return res.status(403).json({ error: "Access denied. Admins only." });

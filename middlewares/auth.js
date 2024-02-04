@@ -3,7 +3,7 @@ const User = require("../models/user");
 
 exports.authCheck = async (req, res, next) => {
   const authToken = req.headers.authtoken;
-  // console.log(authToken);
+  // console.log("inside auth check---->>>", req.headers);
   try {
     const firebaseUser = await admin.auth().verifyIdToken(authToken);
     req.user = firebaseUser;

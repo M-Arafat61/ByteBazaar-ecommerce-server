@@ -28,12 +28,13 @@ exports.upload = async (req, res) => {
 };
 
 exports.remove = (req, res) => {
+  const removed = req.body;
   const image_id = req.body.public_id;
   cloudinary.uploader.destroy(image_id, err => {
     if (err) {
       console.error("Error deleting image:", err);
       return res.status(500).json({ error: "Internal Server Error" });
     }
-    res.send({ message: "Image deleted successfully!" });
+    res.send({ removed, message: "Image deleted successfully!" });
   });
 };

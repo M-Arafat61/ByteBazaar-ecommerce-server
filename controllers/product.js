@@ -38,3 +38,50 @@ exports.read = async (req, res) => {
     .exec();
   res.json(product);
 };
+
+exports.update = async (req, res) => {
+  try {
+    if (req.body.title) {
+      req.body.slug = slugify(req.body.title);
+    }
+    const existingProduct = await Product.findOne({ slug: req.params.slug });
+
+    if (!existingProduct) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    const updatedImages = req.body.images || [];
+    const existingImages = existingProduct.images || [];
+    const deletedImages = existingImages.filter(
+      image => !updatedImages.includes(image)
+    );
+
+    const updated = await Product.findOneAndUpdate(
+      { slug: req.params.slug },
+      {
+        ...req.body,
+        images: updatedImages.filter(image => !deletedImages.includes(image)),
+      },
+      { new: true }
+    );
+    res.json(updated);
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+};
+
+exports.newAndBestList = async (req, res) => {
+  try {
+    const { sort, order, limit } = req.body;
+    console.log(req.body);
+    const products = await Product.find({})
+      .populate("category")
+      .populate("subs")
+      .sort([[sort, order]])
+      .limit(limit)
+      .exec();
+    res.json(products);
+  } catch (error) {
+    console.log(error);
+  }
+};
